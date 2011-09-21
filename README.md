@@ -30,7 +30,7 @@ A reimplementation of the parts of `sed` that I like.
 
 ## Commands:
 
-*  (default)     : perform a substitution
+*  -S (default)  : perform a substitution
 *  -N,--suppress : suppress lines matching {pattern}
 *  -I,--inplace  : inplace file(s) replacement
 
