@@ -3,7 +3,9 @@
 
 A reimplementation of the parts of `sed` that I like.
 
-`$ npm install -g ned`
+```sh
+$ npm install -g ned
+```
 
 1. straight-forward stdin | ned | stdout regex replaces
 
