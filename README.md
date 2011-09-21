@@ -59,5 +59,5 @@ $ npm install -g ned
 
 ## TODO:
 
-* support for -c -- easy, but I don't feel like working with stdin/readline right now.
+* support for -c — easy, but I don't feel like working with stdin/readline right now.
 * I had originally had an idea for scripts; these would be coffeescript files that were passed globals like 'replace' and 'suppress', and would be stored in a global location, like ~/.ned/
