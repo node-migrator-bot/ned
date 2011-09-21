@@ -7,7 +7,7 @@ A reimplementation of the parts of `sed` that I like.
 $ npm install -g ned
 ```
 
-1. straight-forward stdin | ned | stdout regex replaces
+1. straight-forward `stdin | ned | stdout` regex replaces
 
     ```sh
     $ echo 'test' | ned -1 t 'is the b' -n 1..1 t '$&!' ^ 'ned '
