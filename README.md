@@ -8,24 +8,24 @@ A reimplementation of the parts of `sed` that I like.
 1. straight-forward stdin | ned | stdout regex replaces
 
 ```sh
-    $ echo 'test' | ned -1 t 'is the b' -n 1..1 t '$&!' ^ 'ned '
-    ned is the best!
+$ echo 'test' | ned -1 t 'is the b' -n 1..1 t '$&!' ^ 'ned '
+ned is the best!
 ```
 
 2. Suppressing lines of text
 
 ```sh
-    $ echo -n 'test1
-    test2
-    test3' | ned -N 2\$
-    test1
-    test3
+$ echo -n 'test1
+test2
+test3' | ned -N 2\$
+test1
+test3
 ```
 
 3. Inplace file rewriting. -S is required, otherwise it looks like a file
 
 ```sh
-    $ ned -I fileA fileB -S .jpg .gif
+$ ned -I fileA fileB -S .jpg .gif
 ```
 
 ## Commands:
