@@ -23,6 +23,7 @@ A reimplementation of the parts of `sed` that I like.
     ```
 
 3. Inplace file rewriting. -S is required, otherwise it looks like a file
+
     ```sh
         $ ned -I fileA fileB -S .jpg .gif
     ```
