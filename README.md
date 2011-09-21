@@ -24,7 +24,7 @@ $ npm install -g ned
     test3
     ```
 
-3. Inplace file rewriting. -S is required, otherwise it looks like a file
+3. Inplace file rewriting. `-S` is required, otherwise it looks like a file
 
     ```sh
     $ ned -I fileA fileB -S .jpg .gif
