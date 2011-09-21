@@ -17,7 +17,7 @@ A reimplementation of the parts of `sed` that I like.
 ```sh
     $ echo -n 'test1
     test2
-    test3' | ned -N 2$
+    test3' | ned -N 2\$
     test1
     test3
 ```
