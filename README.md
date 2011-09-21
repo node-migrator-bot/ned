@@ -28,31 +28,34 @@ A reimplementation of the parts of `sed` that I like.
     $ ned -I fileA fileB -S .jpg .gif
 ```
 
-4. Scriptable (kinda).
+## Commands:
 
-Commands:
+*  (default)     : perform a substitution
+*  -N,--suppress : suppress lines matching {pattern}
+*  -I,--inplace  : inplace file(s) replacement
 
-  (default)     : perform a substitution
-  -N,--suppress : suppress lines matching {pattern}
-  -I,--inplace  : inplace file(s) replacement
+## Search Options:
 
-Search Options:
+*  -l,--literal    : do not compile search into a regular expression
+*  -i,--insensitive: case-insensitive search
+*  -m,--multiline  : search entire document, not line by line, and '.' matches newlines.
+*  --              : placeholder, if you want to match the string '-.*', use this is separate options from search
 
-  -l,--literal    : do not compile search into a regular expression
-  -i,--insensitive: case-insensitive search
-  -m,--multiline  : search entire document, not line by line, and '.' matches newlines.
-  --              : placeholder, if you want to match the string '-.*', use this is separate options from search
+## Search/replace options:
 
-Search/replace options:
+*  -n,--limit X    : replace X occurences
+*  -n Y..X         : replace X occurences, starting at the Yth match
+*  -1,...-9        : replace N occurences
 
-  -n,--limit X    : replace X occurences
-  -n Y..X         : replace X occurences, starting at the Yth match
-  -1,...-9        : replace N occurences
+## Suppress output options:
 
-Suppress output options:
+*  -!,--invert     : invert matches
 
-  -!,--invert     : invert matches
+## Inplace rewrite options:
 
-Inplace rewrite options:
+*  -c,--confirm    : confirm changes, NOT IMPLEMENTED as of 0.9.0
 
-  -c,--confirm    : confirm changes
+## TODO:
+
+* support for -c -- easy, but I don't feel like working with stdin/readline right now.
+* I had originally had an idea for scripts; these would be coffeescript files that were passed globals like 'replace' and 'suppress', and would be stored in a global location, like ~/.ned/
