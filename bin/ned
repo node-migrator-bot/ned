@@ -1,0 +1,16 @@
+#!/usr/bin/env node
+
+var ned = require('../lib/ned.js');
+
+
+//|
+//|  THE PROGRAM!
+//|
+if ( process.argv.indexOf('-h') >= 0 )
+{
+  ned.showHelpAndExit();
+}
+else
+{
+  ned(process);
+}

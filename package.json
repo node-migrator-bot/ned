@@ -1,0 +1,20 @@
+{
+  "name": "ned",
+  "description": "A reimplementation of the parts of `sed` that I like.",
+  "version": "1.0.0",
+  "author": "Colin Thomas-Arnold <colinta@mac.com> http://echonull.colinta.com/",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/colinta/ned.git"
+  },
+  "main": "./bin/ned",
+  "bin": { "ned": "./bin/ned" },
+  "directories": { "test": "./test" },
+  "devDependencies": {
+    "coffee-script": ">= 1.1.0",
+    "vows": ">= 0.5.11"
+  },
+  "dependencies": {
+    "optimist": ">= 0.2.6"
+  }
+}
