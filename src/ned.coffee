@@ -31,7 +31,7 @@ ned = (process)->
   options = null
   command = null
   next = 'command'
-  commands = ['-S', '-N', '-I', '-X']
+  commands = ['-R', '-N', '-I', '-X']
   
   at = 0
   while at < argv.length or next == 'ned'
@@ -39,9 +39,9 @@ ned = (process)->
     console.log {next, arg, options} if output_debug
 
     if next == 'command'
-      if arg == '-N' then command = 'suppress'
-      else if arg == '-I' then command = 'inplace'
-      else if arg == '-S' then command = 'replace'
+      if arg == '-N' or arg == '--suppress' then command = 'suppress'
+      else if arg == '-I' or arg == '--inplace' then command = 'inplace'
+      else if arg == '-R' or arg == '--replace' then command = 'replace'
       
       if command == 'inplace' and neds.length
         console.log "inplace command must be the first ned command"

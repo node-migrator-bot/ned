@@ -24,15 +24,15 @@ $ npm install -g ned
     test3
     ```
 
-3. Inplace file rewriting. `-S` is required, otherwise it looks like a file
+3. Inplace file rewriting. `-R` is required, otherwise it looks like a file
 
     ```sh
-    $ ned -I fileA fileB -S .jpg .gif
+    $ ned -I fileA fileB -R .jpg .gif
     ```
 
 ## Commands:
 
-*  -S (default)  : perform a substitution
+*  -R,--replace  : perform a substitution (default)
 *  -N,--suppress : suppress lines matching {pattern}
 *  -I,--inplace  : inplace file(s) replacement
 
