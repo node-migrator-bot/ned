@@ -31,7 +31,7 @@ ned = (process)->
   options = null
   command = null
   next = 'command'
-  commands = ['-R', '-N', '-I', '-X']
+  commands = ['-R', '-S', '-N', '-I']
   
   at = 0
   while at < argv.length or next == 'ned'
@@ -39,15 +39,19 @@ ned = (process)->
     console.log {next, arg, options} if output_debug
 
     if next == 'command'
-      if arg == '-N' or arg == '--suppress' then command = 'suppress'
-      else if arg == '-I' or arg == '--inplace' then command = 'inplace'
-      else if arg == '-R' or arg == '--replace' then command = 'replace'
+      command = null
+      switch arg
+        when '-R', '--replace'  then command = 'replace'
+        when '-S', '--grep'     then command = 'grep'
+        when '-N', '--suppress' then command = 'suppress'
+        when '-I', '--inplace'  then command = 'inplace'
       
       if command == 'inplace' and neds.length
         console.log "inplace command must be the first ned command"
         process.exit(1)
         
       if command then at++
+      else if at == argv.length - 1 then command = 'grep'
       else command = 'replace'
       console.log {command} if output_debug
       
@@ -66,7 +70,7 @@ ned = (process)->
       
       next = 'ned'
       at++
-    else if next == command # 'suppress' and 'inplace' all "suck up" remaining arguments, until the next command
+    else if next == command # 'grep', 'suppress' and 'inplace' all "suck up" remaining arguments, until the next command
       if arg in commands
         next = 'ned'
       else if command == 'inplace' and arg == '-c'
@@ -103,7 +107,7 @@ ned = (process)->
       else
         if command == 'inplace'
           ned.files = ned._
-        else if command == 'suppress'
+        else if command in ['grep', 'suppress']
           ned.patterns = ned._
         else if command == 'replace'
           ned.search = ned._[0]
@@ -150,12 +154,24 @@ escapeRegex = (text) -> text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&")
 
 
 nedCommands = (neds, input, output_debug = false)->
+  input = input.replace(/\r\n|\r/g, "\n")
+  console.log {input} if output_debug
+  ends_in_newline = input[input.length - 1] == "\n"
+  input = input.substring(0, input.length - 1) if ends_in_newline
+  console.log {input,ends_in_newline} if output_debug and ends_in_newline
+  
   for ned in neds
     console.log {command: ned.command} if output_debug
-    if ned.command == 'replace'
-      input = nedReplace(input, ned, output_debug)
-    else if ned.command == 'suppress'
-      input = nedSuppress(input, ned, output_debug)
+    switch ned.command
+      when 'replace'
+        input = nedReplace(input, ned, output_debug)
+      when 'suppress'
+        input = nedSuppress(input, ned, output_debug)
+      when 'grep'
+        input = nedGrep(input, ned, output_debug)
+      else
+        throw new Error("Unknown command #{ned.command}")
+  input += "\n" if ends_in_newline
   input
 
 
@@ -239,6 +255,36 @@ nedSuppress = (input, ned, output_debug = false)->
     for pattern in patterns
       if line.match(pattern)
         ret.pop()
+        break
+  ret.join("\n")
+
+
+nedGrep = (input, ned, output_debug = false)->
+  flags = ''
+  if ned.multiline
+    flags += 'm'
+    lines = [input]
+  else
+    lines = input.split("\n")
+  
+  if ned.insensitive
+    flags += 'i'
+  
+  patterns = []
+  console.log {patterns:ned.patterns} if output_debug
+  for pattern in ned.patterns
+    if ned.literal
+      patterns.push new RegExp(escapeRegex(pattern), flags)
+    else
+      patterns.push new RegExp(pattern, flags)
+  
+  input = ''
+  ret = []
+  for line, i in lines
+    console.log {line, patterns, flags} if output_debug
+    for pattern in patterns
+      if line.match(pattern)
+        ret.push line
         break
   ret.join("\n")
 

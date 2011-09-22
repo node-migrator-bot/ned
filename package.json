@@ -1,7 +1,7 @@
 {
   "name": "ned",
   "description": "A reimplementation of the parts of `sed` that I like.",
-  "version": "0.9.2",
+  "version": "1.0.0",
   "author": "Colin Thomas-Arnold <colinta@mac.com> http://echonull.colinta.com/",
   "repository": {
     "type": "git",

@@ -7,7 +7,10 @@ A reimplementation of the parts of `sed` that I like.
 $ npm install -g ned
 ```
 
-1. straight-forward `stdin | ned | stdout` regex replaces
+0. Only display matching lines (default when there is only one argument)
+
+
+1. straight-forward `stdin | ned | stdout` regex replaces (default when there is more than one argument)
 
     ```sh
     $ echo 'test' | ned -1 t 'is the b' -n 1..1 t '$&!' ^ 'ned '
@@ -32,11 +35,12 @@ $ npm install -g ned
 
 ## Commands:
 
-*  -R,--replace  : perform a substitution (default)
+*  -R,--replace  : perform a substitution {search} {replace}
+*  -S,--grep     : only print lines matching {pattern}
 *  -N,--suppress : suppress lines matching {pattern}
 *  -I,--inplace  : inplace file(s) replacement
 
-## Search Options:
+## Search Options: (replace, grep, suppress)
 
 *  -l,--literal    : do not compile search into a regular expression
 *  -i,--insensitive: case-insensitive search
