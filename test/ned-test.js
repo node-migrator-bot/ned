@@ -13,6 +13,15 @@ vows.describe('Using ned').addBatch({
       assert.equal(ned(process), 'ned is the best!')
     },
   },
+  'when removing consecutive spaces': {
+    topic: {
+      argv: ['node', 'ned', ' +', ' '],
+      input: 'this   is   a    test'
+    },
+    'we expect "this   is   a    test" to become "this is a test"': function(process) {
+      assert.equal(ned(process), 'this is a test')
+    },
+  },
   'when suppressing output': {
     topic: {
       argv: ['node', 'ned', '-N', '2$'],

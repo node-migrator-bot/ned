@@ -6,6 +6,7 @@ path = require('path')
 optimist = (command, argv)->
   opt = require('../node_modules/optimist')(argv)
     .usage(usage)
+    .string('_')
     .boolean([1..9])
   if command == 'replace' or command == 'suppress'
     opt.boolean('l')
