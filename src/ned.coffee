@@ -4,7 +4,7 @@ path = require('path')
 
 
 optimist = (command, argv)->
-  opt = require('../node_modules/optimist')(argv)
+  opt = require('../optimist.js')(argv)
     .usage(usage)
     .string('_')
     .boolean([1..9])
