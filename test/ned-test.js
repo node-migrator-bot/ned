@@ -49,6 +49,15 @@ vows.describe('Using ned').addBatch({
       assert.equal(ned(process), 'test2')
     },
   },
+  'when grepping output, case insensitive': {
+    topic: {
+      argv: ['node', 'ned', '-i', 'abc'],
+      input: "abc\nABC\nAbC\ndef"
+    },
+    'we expect "abc\\nABC\\nAbC\\ndef" to become "abc\\nABC\\nAbC"': function(process) {
+      assert.equal(ned(process), 'abc\nABC\nAbC')
+    },
+  },
   'when grepping output AND': {
     topic: {
       argv: ['node', 'ned', '-S', 'good', '-S', '[13]'],

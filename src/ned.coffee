@@ -8,7 +8,7 @@ optimist = (command, argv)->
     .usage(usage)
     .string('_')
     .boolean([1..9])
-  if command == 'replace' or command == 'suppress'
+  if command in ['replace', 'suppress', 'grep']
     opt.boolean('l')
        .alias('l', 'literal')
        .boolean('i')
@@ -48,8 +48,7 @@ ned = (process)->
         when '-I', '--inplace'  then command = 'inplace'
       
       if command == 'inplace' and neds.length
-        console.log "inplace command must be the first ned command"
-        process.exit(1)
+        throw new Error "inplace command must be the first ned command"
         
       if command then at++
       else if at == argv.length - 1 then command = 'grep'
@@ -63,8 +62,13 @@ ned = (process)->
       console.log {search:arg} if output_debug
       options.push arg
       
-      next = 'replace'
       at++
+      if at == argv.length or argv[at] in commands
+        next = 'ned'
+        command = 'grep'
+        console.log {command} if output_debug
+      else
+        next = 'replace'
     else if next == 'replace'
       console.log {replace:arg} if output_debug
       options.push arg
@@ -99,6 +103,7 @@ ned = (process)->
       options.push arg
       at++
     else if next == 'ned'
+      console.log {command,options} if output_debug
       ned = optimist(command, options)
       ned.command = command
       if command == 'replace' and ned._.length < 2
@@ -122,9 +127,7 @@ ned = (process)->
       throw new Error("I should not be @ #{next}")
   # /while
   if next != 'command'
-    showHelpAndExit(1)
-    console.log "Expected 'command', got #{next}" if output_debug
-    process.exit(1)
+    throw new Error "Expected 'command', got #{next}" if output_debug
   
   if neds[0].command == 'inplace'
     inplace = neds.shift();
@@ -148,8 +151,10 @@ ned = (process)->
         input += chunk
       
       process.stdin.on 'end', ()->
-        process.stdout.write nedCommands(neds, input, output_debug)
-  
+        try
+          process.stdout.write nedCommands(neds, input, output_debug)
+        catch e
+          console.error(e.message);
 
 escapeRegex = (text) -> text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&")
 
@@ -230,6 +235,7 @@ nedReplace = (input, ned, output_debug = false)->
 
 
 nedSuppress = (input, ned, output_debug = false)->
+  if not ned.patterns.length then throw new Error("No patterns in `suppress` command")
   flags = ''
   if ned.multiline
     flags += 'm'
@@ -261,6 +267,7 @@ nedSuppress = (input, ned, output_debug = false)->
 
 
 nedGrep = (input, ned, output_debug = false)->
+  if not ned.patterns.length then throw new Error("No patterns in `grep` command")
   flags = ''
   if ned.multiline
     flags += 'm'

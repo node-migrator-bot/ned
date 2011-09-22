@@ -12,5 +12,12 @@ if ( process.argv.indexOf('-h') >= 0 )
 }
 else
 {
-  ned(process);
+  try
+  {
+    ned(process);
+  }
+  catch(e)
+  {
+    console.error(e.message);
+  }
 }
