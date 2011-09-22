@@ -20,25 +20,28 @@ $ npm install -g ned
    `--grep` commands are AND operations.
 
     ```sh
-    $ echo 'test1
+    $ echo 'good1
     bad1
-    test2
+    good2
     bad2
-    test3
-    bad3' | ned -S test [13] # OR
-    test1
-    test2
+    good3
+    bad3' | ned -S good [13] # OR
+    good1
+    bad1
+    good2
+    good3
+    bad3
     ```
 
     ```sh
-    $ echo 'test1
+    $ echo 'good1
     bad1
-    test2
+    good2
     bad2
-    test3
-    bad3' | ned -S test -S [13] # AND
-    test1
-    test3
+    good3
+    bad3' | ned -S good -S [13] # AND
+    good1
+    good3
     ```
 
 

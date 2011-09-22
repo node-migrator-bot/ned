@@ -40,6 +40,24 @@ vows.describe('Using ned').addBatch({
       assert.equal(ned(process), 'test2')
     },
   },
+  'when grepping output AND': {
+    topic: {
+      argv: ['node', 'ned', '-S', 'good', '-S', '[13]'],
+      input: "good1\nbad1\ngood2\nbad2\ngood3\nbad3"
+    },
+    'we expect "good1\nbad1\ngood2\nbad2\ngood3\nbad3" to become "good1\ngood3"': function(process) {
+      assert.equal(ned(process), 'good1\ngood3')
+    },
+  },
+  'when grepping output OR': {
+    topic: {
+      argv: ['node', 'ned', '-S', 'good', '[13]'],
+      input: "good1\nbad1\ngood2\nbad2\ngood3\nbad3"
+    },
+    'we expect "good1\nbad1\ngood2\nbad2\ngood3\nbad3" to become "good1\\nbad1\\ngood2\\ngood3\\nbad3"': function(process) {
+      assert.equal(ned(process), 'good1\nbad1\ngood2\ngood3\nbad3')
+    },
+  },
   'when grepping output with trailing newline': {
     topic: {
       argv: ['node', 'ned', '2$'],
