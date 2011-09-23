@@ -24,7 +24,7 @@ vows.describe('Using ned').addBatch({
   },
   'when suppressing output': {
     topic: {
-      argv: ['node', 'ned', '-N', '2$'],
+      argv: ['node', 'ned', '-D', '2$'],
       input: 'test1\ntest2\ntest3'
     },
     'we expect "test1\\ntest2\\ntest3" to become "test1\\ntest3"': function(process) {
@@ -33,7 +33,7 @@ vows.describe('Using ned').addBatch({
   },
   'when suppressing output with trailing newline': {
     topic: {
-      argv: ['node', 'ned', '-N', '2$'],
+      argv: ['node', 'ned', '-D', '2$'],
       input: "test1\ntest2\ntest3\n"
     },
     'we expect "test1\\ntest2\\ntest3\\n" to become "test1\\ntest3\\n"': function(process) {
@@ -60,7 +60,7 @@ vows.describe('Using ned').addBatch({
   },
   'when grepping output AND': {
     topic: {
-      argv: ['node', 'ned', '-S', 'good', '-S', '[13]'],
+      argv: ['node', 'ned', '-P', 'good', '-P', '[13]'],
       input: "good1\nbad1\ngood2\nbad2\ngood3\nbad3"
     },
     'we expect "good1\nbad1\ngood2\nbad2\ngood3\nbad3" to become "good1\ngood3"': function(process) {
@@ -69,7 +69,7 @@ vows.describe('Using ned').addBatch({
   },
   'when grepping output OR': {
     topic: {
-      argv: ['node', 'ned', '-S', 'good', '[13]'],
+      argv: ['node', 'ned', '-P', 'good', '[13]'],
       input: "good1\nbad1\ngood2\nbad2\ngood3\nbad3"
     },
     'we expect "good1\nbad1\ngood2\nbad2\ngood3\nbad3" to become "good1\\nbad1\\ngood2\\ngood3\\nbad3"': function(process) {

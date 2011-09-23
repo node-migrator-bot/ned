@@ -13,8 +13,8 @@ optimist = (command, argv)->
        .alias('l', 'literal')
        .boolean('i')
        .alias('i', 'insensitive')
-       .alias('m', 'multiline')
        .boolean('m')
+       .alias('m', 'multiline')
   if command == 'replace'
     opt.alias('n', 'limit').check( (argv)-> not argv.n? or typeof argv.n == 'number' or !!argv.n.match(/^[0-9]+\.\.[0-9]+$/) )
   if command == 'inplace'
@@ -32,7 +32,7 @@ ned = (process)->
   options = null
   command = null
   next = 'command'
-  commands = ['-R', '-S', '-N', '-I']
+  commands = ['-S', '-P', '-D', '-I']
   
   at = 0
   while at < argv.length or next == 'ned'
@@ -42,9 +42,9 @@ ned = (process)->
     if next == 'command'
       command = null
       switch arg
-        when '-R', '--replace'  then command = 'replace'
-        when '-S', '--grep'     then command = 'grep'
-        when '-N', '--suppress' then command = 'suppress'
+        when '-S', '--replace'  then command = 'replace'
+        when '-P', '--grep'     then command = 'grep'
+        when '-D', '--suppress' then command = 'suppress'
         when '-I', '--inplace'  then command = 'inplace'
       
       if command == 'inplace' and neds.length
@@ -299,8 +299,8 @@ nedGrep = (input, ned, output_debug = false)->
 
 usage = """Usage:
 
-ned [-S] [options] {pattern} {replace} [...]
-ned -N [options] {pattern} [...]
+ned [-P] [options] {pattern} {replace} [...]
+ned -D [options] {pattern} [...]
 ned -I {file} [file...] -- [commands]
 ned -X {file}
 ned -h
@@ -319,7 +319,7 @@ ned.showHelpAndExit = showHelpAndExit = (ret = 0)->
   2. Suppressing lines of text
       $ echo -n 'test1
       > test2
-      > test3' | ned -N 2$
+      > test3' | ned -D 2$
       test1
       test3
   3. Inplace file rewriting. -S is required, otherwise it looks like a file
@@ -328,20 +328,18 @@ ned.showHelpAndExit = showHelpAndExit = (ret = 0)->
   
   Commands:
     (default)     : perform a substitution
-    -N,--suppress : suppress lines matching {pattern}
+    -D,--suppress : suppress lines matching {pattern}
     -I,--inplace  : inplace file(s) replacement
   
-  Search Options:
+  Search/Grep/Suppress Options:
     -l,--literal    : do not compile search into a regular expression
     -i,--insensitive: case-insensitive search
     -m,--multiline  : search entire document, not line by line, and '.' matches newlines.
     --              : placeholder, if you want to match the string '-.*', use this is separate options from search
-  Search/replace options:
+  Search & replace options:
     -n,--limit X    : replace X occurences
     -n Y..X         : replace X occurences, starting at the Yth match
     -1,...-9        : replace N occurences
-  Suppress output options:
-    -!,--invert     : invert matches
   Inplace rewrite options:
     -c,--confirm    : confirm changes
   """

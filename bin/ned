@@ -6,7 +6,7 @@ var ned = require('../lib/ned.js');
 //|
 //|  THE PROGRAM!
 //|
-if ( process.argv.indexOf('-h') >= 0 )
+if ( process.argv.length == 2 || process.argv.indexOf('-h') >= 0 )
 {
   ned.showHelpAndExit();
 }
