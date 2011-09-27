@@ -22,6 +22,15 @@ vows.describe('Using ned').addBatch({
       assert.equal(ned(process), 'this is a test')
     },
   },
+  'when searching the entire document': {
+    topic: {
+      argv: ['node', 'ned', '-m', '^second', 'first'],
+      input: "second line\nsecond line"
+    },
+    'we expect "second line\\nsecond line" to become "first line\\n second line"': function(process) {
+      assert.equal(ned(process), "first line\nsecond line")
+    },
+  },
   'when suppressing output': {
     topic: {
       argv: ['node', 'ned', '-D', '2$'],

@@ -204,7 +204,9 @@ nedReplace = (input, ned, output_debug = false)->
         limit = Number(opt)
         break;
   
-  if not limit
+  if ned.multiline
+    limit = 1
+  else if not limit
     flags += 'g'
     limit = 1
   else if match = limit.toString().match /^([0-9]+)\.\.([0-9]+)$/
